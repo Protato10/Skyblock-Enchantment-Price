@@ -4,7 +4,7 @@ import json
 
 
 # # # Functions
-
+#TEst to see if github works
 # Returns GET request response from url
 def get_info(call):
     r = requests.get(call)
