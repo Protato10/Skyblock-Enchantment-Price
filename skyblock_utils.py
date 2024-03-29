@@ -1,7 +1,6 @@
 # Imports
 import requests
 import json
-from pprint import pprint
 
 
 # # # Functions
@@ -13,8 +12,8 @@ def get_info(call):
 
 
 # Returns auction info from player uuid
-def get_auctions_from_player(uuid):
-    return get_info(f"https://api.hypixel.net/skyblock/auction?key={API_KEY}&player={uuid}")
+#def get_auctions_from_player(uuid):
+  #  return get_info(f"https://api.hypixel.net/skyblock/auction?key={API_KEY}&player={uuid}")
 
 
 # Returns Bazaar data
@@ -80,10 +79,10 @@ dictOfEnchantments = {'Bank 5': 'ENCHANTMENT_ULTIMATE_BANK_5',
                       'Chimera 4': 'ENCHANTMENT_ULTIMATE_CHIMERA_1',
                       'Chimera 5': 'ENCHANTMENT_ULTIMATE_CHIMERA_1',
                       'Inferno 1': 'ENCHANTMENT_ULTIMATE_INFERNO_1',
-                      'Inferno 2': 'ENCHANTMENT_ULTIMATE_INFERNO_2',
-                      'Inferno 3': 'ENCHANTMENT_ULTIMATE_INFERNO_3',
-                      'Inferno 4': 'ENCHANTMENT_ULTIMATE_INFERNO_4',
-                      'Inferno 5': 'ENCHANTMENT_ULTIMATE_INFERNO_5',
+                      'Inferno 2': 'ENCHANTMENT_ULTIMATE_INFERNO_1',
+                      'Inferno 3': 'ENCHANTMENT_ULTIMATE_INFERNO_1',
+                      'Inferno 4': 'ENCHANTMENT_ULTIMATE_INFERNO_1',
+                      'Inferno 5': 'ENCHANTMENT_ULTIMATE_INFERNO_1',
                       'Duplex 1:': 'ENCHANTMENT_ULTIMATE_DUPLEX_1',
                       'Duplex 2:': 'ENCHANTMENT_ULTIMATE_DUPLEX_2',
                       'Duplex 3:': 'ENCHANTMENT_ULTIMATE_DUPLEX_3',
@@ -116,10 +115,10 @@ dictOfEnchantments = {'Bank 5': 'ENCHANTMENT_ULTIMATE_BANK_5',
                       'Legion 5': 'ENCHANTMENT_ULTIMATE_LEGION_5',
                       'One For All': 'ENCHANTMENT_ULTIMATE_ONE_FOR_ALL_1',
                       'Fatal Tempo 1': 'ENCHANTMENT_ULTIMATE_FATAL_TEMPO_1',
-                      'Fatal Tempo 2': 'ENCHANTMENT_ULTIMATE_FATAL_TEMPO_2',
-                      'Fatal Tempo 3': 'ENCHANTMENT_ULTIMATE_FATAL_TEMPO_3',
-                      'Fatal Tempo 4': 'ENCHANTMENT_ULTIMATE_FATAL_TEMPO_4',
-                      'Fatal Tempo 5': 'ENCHANTMENT_ULTIMATE_FATAL_TEMPO_5',
+                      'Fatal Tempo 2': 'ENCHANTMENT_ULTIMATE_FATAL_TEMPO_1',
+                      'Fatal Tempo 3': 'ENCHANTMENT_ULTIMATE_FATAL_TEMPO_1',
+                      'Fatal Tempo 4': 'ENCHANTMENT_ULTIMATE_FATAL_TEMPO_1',
+                      'Fatal Tempo 5': 'ENCHANTMENT_ULTIMATE_FATAL_TEMPO_1',
                       'Habanero Tactics 4': 'ENCHANTMENT_ULTIMATE_HABANERO_TACTICS_4',
                       'Habanero Tactics 5': 'ENCHANTMENT_ULTIMATE_HABANERO_TATICS_5',
                       'Last Stand 5': 'ENCHANTMENT_ULTIMATE_LAST_STAND_5',
@@ -169,6 +168,7 @@ dictOfEnchantments = {'Bank 5': 'ENCHANTMENT_ULTIMATE_BANK_5',
                       'Hardened Mana 1': 'ENCHANTMENT_HARDENED_MANA_1',
                       'Infinite Quiver 10': 'ENCHANTMENT_INFINITE_QUIVER_10', 'Lethality 6': 'ENCHANTMENT_LETHALITY 6',
                       'Life Steal 5': 'ENCHANTMENT_LIFE_STEAL_5', 'Luck 7': 'ENCHANTMENT_LUCK_7',
+                      'Giant Killer 6':'ENCHANTMENT_GIANT_KILLER_6','Giant Killer 7':'ENCHANTMENT_GIANT_KILLER_7',
                       'Looting 5': 'ENCHANTMENT_LOOTING_5', 'Luck Of The Sea 5': 'ENCHANTMENT_LUCK_OF_THE_SEA_5',
                       'Magnet 6': 'ENCHANTMENT_MAGNET_6', 'Mana Vampire 10': 'ENCHANTMENT_MANA_VAMPIRE_10',
                       'Mana Vampire 9': 'ENCHANTMENT_MANA_VAMPIRE_9', 'Mana Vampire 8': 'ENCHANTMENT_MANA_VAMPIRE_8',
@@ -195,7 +195,7 @@ dictOfEnchantments = {'Bank 5': 'ENCHANTMENT_ULTIMATE_BANK_5',
                       'Strong Mana 5': 'ENCHANTMENT_STRONG_MANA_5', 'Strong Mana 4': 'ENCHANTMENT_STRONG_MANA_4',
                       'Strong Mana 3': 'ENCHANTMENT_STRONG_MANA_3', 'Strong Mana 2': 'ENCHANTMENT_STRONG_MANA_2',
                       'Strong Mana 1': 'ENCHANTMENT_STRONG_MANA_1', 'Tabasco 2': 'ENCHANTMENT_TABASCO_2',
-                      'Syphon 5': 'ENCHANTMENT_SYPHON_5', 'Scavanger 5': 'ENCHANTMENT_SCAVANGER_5',
+                      'Syphon 5': 'ENCHANTMENT_SYPHON_5', 'Scavenger 5': 'ENCHANTMENT_SCAVENGER_5',
                       'Tabasco 3': 'ENCHANTMENT_TABASCO_3', 'Thunderbolt 6': 'ENCHANTMENT_THUNDERBOLT_6',
                       'Titan Killer 7': 'ENCHANTMENT_TITAN_KILLER_7', 'Triple Strike 5': 'ENCHANTMENT_TRIPLE_STRIKE_5',
                       'Turbo-Cacti 5': 'ENCHANTMENT_TURBO_CACTI_5', 'Turbo-Potato 5': 'ENCHANTMENT_TURBO_POTATO_5',
@@ -234,33 +234,34 @@ def missing_enchantments():
     sum_of_coins = 0
     for i in range(len(lst)):
         lst[i] = lst[i].strip(" ")
+        if lst[i] not in dictOfEnchantments:
+            print(
+                "Unable to find " + lst[i] + '. Please make sure the spelling is EXACTLY the same (use numbers not '
+                                             'roman numerals and have correct spacing')
         if lst[i] in dictOfEnchantments:
-            if lst[i] == "Chimera 2":
-                total = get_bazaar_price('ENCHANTMENT_ULTIMATE_CHIMERA_1') * 2
+            if lst[i] == "Chimera 5" or lst[i] == "Fatal Tempo 5" or lst[i]=="Bobbin' Time 5"or lst[i]=="Bobbin Time 5":
+                total = get_bazaar_price(dictOfEnchantments[lst[i]]) * 2
                 sum_of_coins += total
                 print(lst[i] + ": " + str(total))
-            elif lst[i] == "Chimera 3":
-                total = get_bazaar_price('ENCHANTMENT_ULTIMATE_CHIMERA_1') * 4
+            elif lst[i] == "Chimera 5" or lst[i] == "Fatal Tempo 5" or lst[i]=="Bobbin' Time 5"or lst[i]=="Bobbin Time 5":
+                total = get_bazaar_price(dictOfEnchantments[lst[i]]) * 4
                 sum_of_coins += total
                 print(lst[i] + ": " + str(total))
-            elif lst[i] == "Chimera 4":
-                total = get_bazaar_price('ENCHANTMENT_ULTIMATE_CHIMERA_1') * 8
+            elif lst[i] == "Chimera 5" or lst[i] == "Fatal Tempo 5" or lst[i]=="Bobbin' Time 5"or lst[i]=="Bobbin Time 5":
+                total = get_bazaar_price(dictOfEnchantments[lst[i]]) * 8
                 sum_of_coins += total
                 print(lst[i] + ": " + str(total))
-            elif lst[i] == "Chimera 5":
-                total = get_bazaar_price('ENCHANTMENT_ULTIMATE_CHIMERA_1') * 16
+            elif lst[i] == "Chimera 5" or lst[i] == "Fatal Tempo 5" or lst[i]=="Bobbin' Time 5"or lst[i]=="Bobbin Time 5":
+                total = get_bazaar_price(dictOfEnchantments[lst[i]])*16
                 sum_of_coins += total
                 print(lst[i] + ": " + str(total))
             else:
                 total = get_bazaar_price((dictOfEnchantments[lst[i]]))
                 print(lst[i] + ": " + str(total))
                 sum_of_coins += get_bazaar_price(dictOfEnchantments[lst[i]])
-            if lst[i] not in dictOfEnchantments:
-                print(
-                    "Unable to find " + lst[i] + '. Please make sure the spelling is EXACTLY the same (use numbers not '
-                                                 'roman numerals and have correct spacing')
-                return
-    print("Total cost for all enchantments are " + str(round((sum_of_coins / 1000000),5)) + " million coins")
+
+
+    print("Total cost for all enchantments are " + str(round((sum_of_coins / 1000000), 5)) + " million coins")
     return
 
 
@@ -327,12 +328,12 @@ def display_top_auction_items(filtered_items, amount):
 
 
 # Variables
-API_FILE = open("API_KEY.json", "r")
-API_KEY = json.loads(API_FILE.read())["API_KEY"]
-example_player_uuid = "6a61acfe47c04f038ca6be4ae358e259"
-item_filters = (
-    {"item_name": "Drill", "bin": True},
-)
+# API_FILE = open("API_KEY.json", "r")
+# API_KEY = json.loads(API_FILE.read())["API_KEY"]
+# example_player_uuid = "6a61acfe47c04f038ca6be4ae358e259"
+# item_filters = (
+# {"item_name": "Drill", "bin": True},
+# )
 
 # Code
 # print(f"Bazaar Buy Order Eco: {get_bazaar_buy_order_value(get_bazaar_data()):,}")
